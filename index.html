@@ -1,33 +1,53 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>R. Belinchón | Portfolio artístico</title>
-  <meta name="description" content="Portfolio artístico de R. Belinchón. Galería de cuadros originales y contacto directo con el artista." />
+  <meta name="description" content="Portfolio artístico de R. Belinchón. Galería visual, fluida y responsive para mostrar obra original." />
   <style>
     :root {
-      --bg: #0f0f10;
-      --panel: #18181b;
-      --panel-2: #232326;
-      --line: rgba(255,255,255,0.08);
-      --text: #f5f5f4;
-      --muted: #c7c7c2;
-      --accent: #e7d7b1;
-      --max: 1200px;
+      --bg: #f5f1e8;
+      --bg-2: #fdfaf4;
+      --text: #1b1b1b;
+      --muted: #625b52;
+      --line: rgba(27, 27, 27, 0.08);
+      --card: rgba(255, 255, 255, 0.58);
+      --accent: #b76e4d;
+      --accent-soft: rgba(183, 110, 77, 0.12);
+      --shadow: 0 18px 50px rgba(52, 37, 26, 0.12);
+      --max: 1240px;
     }
 
     * { box-sizing: border-box; }
     html { scroll-behavior: smooth; }
+
     body {
       margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: Inter, Arial, Helvetica, sans-serif;
       color: var(--text);
-      background: radial-gradient(circle at top, #202024 0%, #101012 50%, #0a0a0b 100%);
-      line-height: 1.55;
+      background:
+        radial-gradient(circle at 10% 15%, rgba(183, 110, 77, 0.18), transparent 22%),
+        radial-gradient(circle at 85% 20%, rgba(240, 199, 135, 0.28), transparent 24%),
+        radial-gradient(circle at 20% 90%, rgba(163, 196, 188, 0.18), transparent 28%),
+        linear-gradient(180deg, var(--bg-2) 0%, var(--bg) 100%);
+      background-attachment: fixed;
+      line-height: 1.5;
+      overflow-x: hidden;
     }
 
-    img { max-width: 100%; display: block; }
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      background: linear-gradient(120deg, rgba(255,255,255,0.22), transparent 40%, rgba(255,255,255,0.18));
+      mix-blend-mode: soft-light;
+      z-index: -1;
+    }
+
+    img { display: block; max-width: 100%; }
     a { color: inherit; text-decoration: none; }
 
     .container {
@@ -35,336 +55,612 @@
       margin: 0 auto;
     }
 
+    .blur-orb {
+      position: fixed;
+      border-radius: 999px;
+      filter: blur(60px);
+      opacity: 0.45;
+      pointer-events: none;
+      z-index: -1;
+      animation: float 12s ease-in-out infinite alternate;
+    }
+
+    .orb-1 {
+      width: 240px;
+      height: 240px;
+      background: rgba(231, 168, 121, 0.35);
+      top: 8%;
+      left: -40px;
+    }
+
+    .orb-2 {
+      width: 320px;
+      height: 320px;
+      background: rgba(141, 181, 173, 0.25);
+      bottom: 8%;
+      right: -80px;
+      animation-duration: 16s;
+    }
+
+    @keyframes float {
+      from { transform: translate3d(0, 0, 0) scale(1); }
+      to { transform: translate3d(30px, -20px, 0) scale(1.08); }
+    }
+
+    @keyframes reveal {
+      from {
+        opacity: 0;
+        transform: translateY(24px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      transition: opacity .7s ease, transform .7s ease;
+    }
+
+    .reveal.visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
     header {
       position: sticky;
       top: 0;
       z-index: 1000;
-      backdrop-filter: blur(10px);
-      background: rgba(10,10,11,0.78);
-      border-bottom: 1px solid var(--line);
+      backdrop-filter: blur(14px);
+      background: rgba(253, 250, 244, 0.68);
+      border-bottom: 1px solid rgba(27, 27, 27, 0.06);
     }
 
     .nav {
+      min-height: 78px;
       display: flex;
       align-items: center;
       justify-content: space-between;
       gap: 1rem;
-      padding: 1rem 0;
     }
 
     .brand {
-      font-size: 1.2rem;
-      letter-spacing: 0.08em;
+      display: flex;
+      flex-direction: column;
+      gap: 0.15rem;
+    }
+
+    .brand strong {
+      font-family: Georgia, serif;
+      font-size: 1.25rem;
+      letter-spacing: 0.05em;
+    }
+
+    .brand span {
+      font-size: 0.82rem;
+      color: var(--muted);
       text-transform: uppercase;
+      letter-spacing: 0.14em;
     }
 
     .nav-links {
       display: flex;
-      gap: 1.1rem;
-      flex-wrap: wrap;
       align-items: center;
-      font-family: Arial, Helvetica, sans-serif;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .nav-links a {
       color: var(--muted);
-      font-size: 0.95rem;
+      font-size: 0.96rem;
+      transition: color .2s ease, transform .2s ease;
     }
 
     .nav-links a:hover {
       color: var(--text);
+      transform: translateY(-1px);
     }
 
     .btn {
-      display: inline-block;
-      border: 1px solid var(--accent);
-      color: #111;
-      background: var(--accent);
-      padding: 0.85rem 1.15rem;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .5rem;
       border-radius: 999px;
-      font-family: Arial, Helvetica, sans-serif;
+      padding: 0.95rem 1.25rem;
       font-weight: 700;
-      transition: transform .2s ease, opacity .2s ease;
+      border: 1px solid transparent;
+      transition: transform .24s ease, box-shadow .24s ease, background .24s ease;
+      cursor: pointer;
     }
 
     .btn:hover {
-      transform: translateY(-1px);
-      opacity: .96;
+      transform: translateY(-2px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.08);
     }
 
-    .btn-outline {
-      background: transparent;
+    .btn-primary {
+      color: #fff;
+      background: linear-gradient(135deg, #b76e4d, #8d5b42);
+    }
+
+    .btn-secondary {
       color: var(--text);
-      border-color: rgba(255,255,255,0.15);
+      background: rgba(255,255,255,0.42);
+      border-color: rgba(27,27,27,0.08);
     }
 
     .hero {
-      padding: 5.5rem 0 4rem;
+      padding: 5.5rem 0 3rem;
     }
 
     .hero-grid {
       display: grid;
-      grid-template-columns: 1.15fr .85fr;
+      grid-template-columns: 1.02fr 0.98fr;
       gap: 2rem;
       align-items: center;
     }
 
     .eyebrow {
-      display: inline-block;
-      padding: 0.35rem 0.75rem;
+      display: inline-flex;
+      align-items: center;
+      gap: .45rem;
+      padding: .45rem .85rem;
       border-radius: 999px;
-      border: 1px solid rgba(231,215,177,0.35);
+      background: rgba(255,255,255,0.55);
+      border: 1px solid rgba(27,27,27,0.07);
       color: var(--accent);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: 0.82rem;
-      letter-spacing: 0.08em;
+      font-size: .8rem;
       text-transform: uppercase;
+      letter-spacing: .12em;
       margin-bottom: 1rem;
+      font-weight: 700;
     }
 
     h1 {
-      font-size: clamp(2.5rem, 5vw, 4.8rem);
-      line-height: 1.02;
+      font-family: Georgia, serif;
+      font-size: clamp(2.7rem, 6vw, 5.4rem);
+      line-height: .95;
       margin: 0 0 1rem;
-      font-weight: 600;
+      letter-spacing: -0.03em;
     }
 
     .lead {
-      font-size: 1.1rem;
+      font-size: 1.08rem;
       color: var(--muted);
-      max-width: 62ch;
+      max-width: 60ch;
       margin-bottom: 1.6rem;
-      font-family: Arial, Helvetica, sans-serif;
     }
 
     .hero-actions {
       display: flex;
+      flex-wrap: wrap;
+      gap: .9rem;
+      margin-bottom: 1.4rem;
+    }
+
+    .hero-meta {
+      display: flex;
       gap: 1rem;
       flex-wrap: wrap;
-      margin-bottom: 1.2rem;
-    }
-
-    .hero-note {
       color: var(--muted);
-      font-family: Arial, Helvetica, sans-serif;
+      font-size: 0.95rem;
     }
 
-    .hero-frame {
-      background: linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
-      border: 1px solid var(--line);
+    .glass {
+      background: var(--card);
+      border: 1px solid rgba(255,255,255,0.55);
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(16px);
       border-radius: 28px;
-      padding: 1rem;
-      box-shadow: 0 18px 40px rgba(0,0,0,.28);
     }
 
-    .hero-frame img {
+    .hero-visual {
+      padding: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-stack {
+      display: grid;
+      grid-template-columns: 1fr .78fr;
+      gap: 1rem;
+      align-items: stretch;
+    }
+
+    .hero-main,
+    .hero-side {
+      overflow: hidden;
+      border-radius: 22px;
+      position: relative;
+      min-height: 320px;
+    }
+
+    .hero-main img,
+    .hero-side img {
       width: 100%;
-      aspect-ratio: 4 / 5;
+      height: 100%;
       object-fit: cover;
-      border-radius: 20px;
+      transition: transform .7s ease;
+    }
+
+    .hero-main:hover img,
+    .hero-side:hover img {
+      transform: scale(1.05);
+    }
+
+    .hero-badge {
+      position: absolute;
+      left: 1rem;
+      bottom: 1rem;
+      padding: .7rem .9rem;
+      border-radius: 16px;
+      background: rgba(255,255,255,0.78);
+      color: var(--text);
+      font-size: .92rem;
+      box-shadow: 0 12px 24px rgba(0,0,0,0.08);
     }
 
     section {
-      padding: 4rem 0;
+      padding: 2rem 0 4.5rem;
     }
 
-    .section-head {
+    .section-top {
       display: flex;
       justify-content: space-between;
       align-items: end;
       gap: 1rem;
-      margin-bottom: 1.5rem;
+      margin-bottom: 1.6rem;
     }
 
-    .section-head h2 {
-      margin: 0 0 .4rem;
-      font-size: 2rem;
-      font-weight: 600;
+    .section-top h2 {
+      font-family: Georgia, serif;
+      margin: 0 0 .45rem;
+      font-size: clamp(2rem, 4vw, 3rem);
+      line-height: 1;
     }
 
-    .section-head p, .text {
+    .section-top p,
+    .text {
       margin: 0;
       color: var(--muted);
-      font-family: Arial, Helvetica, sans-serif;
     }
 
-    .gallery {
-      display: grid;
-      grid-template-columns: repeat(3, 1fr);
-      gap: 1.25rem;
+    .masonry {
+      columns: 3 290px;
+      column-gap: 1.1rem;
     }
 
-    .card {
-      background: rgba(255,255,255,0.035);
-      border: 1px solid var(--line);
-      border-radius: 22px;
+    .art-card {
+      break-inside: avoid;
+      margin: 0 0 1.1rem;
       overflow: hidden;
-      box-shadow: 0 14px 30px rgba(0,0,0,.16);
+      position: relative;
+      border-radius: 24px;
+      background: rgba(255,255,255,0.52);
+      border: 1px solid rgba(255,255,255,0.58);
+      box-shadow: var(--shadow);
+      transition: transform .28s ease, box-shadow .28s ease;
+    }
+
+    .art-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 24px 44px rgba(52, 37, 26, 0.14);
     }
 
     .art-button {
+      width: 100%;
+      background: transparent;
       border: 0;
       padding: 0;
-      margin: 0;
-      background: transparent;
-      width: 100%;
       cursor: zoom-in;
+      text-align: left;
     }
 
-    .card img {
+    .art-button img {
       width: 100%;
-      height: 360px;
-      object-fit: cover;
-      transition: transform .35s ease;
-      background: #111;
+      height: auto;
+      display: block;
     }
 
-    .card:hover img {
-      transform: scale(1.03);
+    .art-info {
+      padding: .95rem 1rem 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: .8rem;
     }
 
-    .card-body {
-      padding: 1rem 1rem 1.2rem;
+    .art-info h3 {
+      margin: 0 0 .2rem;
+      font-size: 1rem;
     }
 
-    .card-body h3 {
-      margin: 0 0 .35rem;
-      font-size: 1.1rem;
-      font-weight: 600;
-    }
-
-    .card-body p {
+    .art-info p {
       margin: 0;
       color: var(--muted);
-      font-family: Arial, Helvetica, sans-serif;
-      font-size: .95rem;
+      font-size: .92rem;
     }
 
-    .about-grid {
+    .tag {
+      flex-shrink: 0;
+      font-size: .78rem;
+      font-weight: 700;
+      color: var(--accent);
+      background: var(--accent-soft);
+      padding: .45rem .65rem;
+      border-radius: 999px;
+    }
+
+    .artist-layout {
       display: grid;
-      grid-template-columns: 1fr .9fr;
-      gap: 1.5rem;
+      grid-template-columns: 1fr .95fr;
+      gap: 1.2rem;
     }
 
     .panel {
-      background: rgba(255,255,255,0.035);
-      border: 1px solid var(--line);
-      border-radius: 24px;
       padding: 1.5rem;
     }
 
     .panel h3 {
-      margin-top: 0;
-      font-size: 1.35rem;
-      font-weight: 600;
+      font-family: Georgia, serif;
+      margin: 0 0 .8rem;
+      font-size: 1.5rem;
     }
 
-    .contact-list {
+    .feature-list {
       display: grid;
-      gap: .8rem;
+      grid-template-columns: repeat(2, 1fr);
+      gap: .85rem;
       margin-top: 1rem;
-      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    .feature {
+      padding: 1rem;
+      border-radius: 18px;
+      background: rgba(255,255,255,0.44);
+      border: 1px solid rgba(27,27,27,0.06);
+      min-height: 110px;
+    }
+
+    .feature strong {
+      display: block;
+      margin-bottom: .35rem;
+    }
+
+    .contact-grid {
+      display: grid;
+      grid-template-columns: .95fr 1.05fr;
+      gap: 1.2rem;
+      align-items: stretch;
+    }
+
+    .contact-card {
+      padding: 1.6rem;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      min-height: 100%;
+    }
+
+    .contact-items {
+      display: grid;
+      gap: .85rem;
+      margin: 1rem 0 1.2rem;
     }
 
     .contact-item {
       padding: 1rem;
-      background: rgba(255,255,255,0.03);
-      border: 1px solid var(--line);
+      background: rgba(255,255,255,0.48);
+      border: 1px solid rgba(27,27,27,0.06);
+      border-radius: 18px;
+    }
+
+    .contact-form {
+      display: grid;
+      gap: .85rem;
+    }
+
+    .field {
+      display: grid;
+      gap: .4rem;
+    }
+
+    label {
+      font-size: .92rem;
+      color: var(--muted);
+      font-weight: 600;
+    }
+
+    input, textarea {
+      width: 100%;
+      border: 1px solid rgba(27,27,27,0.08);
+      background: rgba(255,255,255,0.62);
       border-radius: 16px;
+      padding: 1rem 1rem;
+      font: inherit;
+      color: var(--text);
+      outline: none;
+      transition: border-color .2s ease, transform .2s ease, box-shadow .2s ease;
+    }
+
+    input:focus, textarea:focus {
+      border-color: rgba(183,110,77,0.45);
+      box-shadow: 0 0 0 4px rgba(183,110,77,0.08);
+    }
+
+    textarea {
+      resize: vertical;
+      min-height: 150px;
+    }
+
+    .small {
+      font-size: .88rem;
+      color: var(--muted);
     }
 
     footer {
-      padding: 2rem 0 3rem;
-      border-top: 1px solid var(--line);
+      padding: 1.8rem 0 3rem;
+      border-top: 1px solid rgba(27,27,27,0.06);
       color: var(--muted);
-      font-family: Arial, Helvetica, sans-serif;
+      background: rgba(255,255,255,0.24);
+      backdrop-filter: blur(8px);
+    }
+
+    .footer-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+      flex-wrap: wrap;
     }
 
     .lightbox {
       position: fixed;
       inset: 0;
-      background: rgba(0,0,0,.88);
+      background: rgba(17, 17, 17, 0.82);
+      backdrop-filter: blur(10px);
       display: none;
       align-items: center;
       justify-content: center;
-      padding: 2rem;
-      z-index: 2000;
+      padding: 1.5rem;
+      z-index: 3000;
     }
 
     .lightbox.open {
       display: flex;
+      animation: fadeIn .25s ease;
     }
 
-    .lightbox-inner {
-      width: min(100%, 1100px);
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .lightbox-box {
+      width: min(100%, 1120px);
       position: relative;
     }
 
-    .lightbox img {
+    .lightbox-box img {
       width: 100%;
       max-height: 80vh;
       object-fit: contain;
-      border-radius: 14px;
-      background: #111;
+      border-radius: 20px;
+      background: #fff;
+      box-shadow: 0 18px 50px rgba(0,0,0,0.24);
     }
 
     .lightbox-close {
       position: absolute;
-      top: -46px;
+      top: -48px;
       right: 0;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
       border: 0;
-      background: transparent;
-      color: white;
-      font-size: 2rem;
+      background: rgba(255,255,255,0.9);
       cursor: pointer;
+      font-size: 1.5rem;
     }
 
     .lightbox-caption {
       margin-top: .9rem;
-      color: #e7e5e4;
+      color: white;
       text-align: center;
-      font-family: Arial, Helvetica, sans-serif;
+      font-size: .95rem;
     }
 
     @media (max-width: 980px) {
-      .hero-grid, .about-grid {
+      .hero-grid,
+      .artist-layout,
+      .contact-grid {
         grid-template-columns: 1fr;
       }
-      .gallery {
-        grid-template-columns: repeat(2, 1fr);
+
+      .hero-stack {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .feature-list {
+        grid-template-columns: 1fr 1fr;
       }
     }
 
-    @media (max-width: 700px) {
-      .nav {
-        flex-direction: column;
-        align-items: start;
+    @media (max-width: 760px) {
+      body {
+        background-attachment: scroll;
       }
-      .gallery {
+
+      .nav {
+        padding: .9rem 0 1rem;
+        align-items: flex-start;
+        flex-direction: column;
+      }
+
+      .nav-links {
+        width: 100%;
+        justify-content: flex-start;
+      }
+
+      .hero {
+        padding: 4.3rem 0 2.2rem;
+      }
+
+      .hero-stack {
         grid-template-columns: 1fr;
       }
-      .card img {
-        height: auto;
-        max-height: 520px;
+
+      .section-top {
+        flex-direction: column;
+        align-items: flex-start;
       }
-      section {
-        padding: 3rem 0;
+
+      .feature-list {
+        grid-template-columns: 1fr;
       }
-      .hero {
-        padding-top: 4rem;
+
+      .masonry {
+        columns: 2 180px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      h1 {
+        font-size: 2.45rem;
+      }
+
+      .masonry {
+        columns: 1;
+      }
+
+      .btn {
+        width: 100%;
+      }
+
+      .hero-actions {
+        flex-direction: column;
       }
     }
   </style>
 </head>
 <body>
+  <div class="blur-orb orb-1"></div>
+  <div class="blur-orb orb-2"></div>
+
   <header>
     <div class="container nav">
-      <a class="brand" href="#inicio">R. Belinchón</a>
+      <a href="#inicio" class="brand">
+        <strong>R. Belinchón</strong>
+        <span>Portfolio artístico</span>
+      </a>
       <nav class="nav-links">
         <a href="#galeria">Galería</a>
-        <a href="#artista">El artista</a>
+        <a href="#artista">Artista</a>
         <a href="#contacto">Contacto</a>
-        <a class="btn" href="#contacto">Consultar una obra</a>
+        <a class="btn btn-primary" href="#contacto">Consultar obra</a>
       </nav>
     </div>
   </header>
@@ -372,443 +668,161 @@
   <main>
     <section class="hero" id="inicio">
       <div class="container hero-grid">
-        <div>
-          <span class="eyebrow">Portfolio artístico</span>
-          <h1>Pintura contemporánea para descubrir, contemplar y coleccionar.</h1>
+        <div class="reveal visible">
+          <span class="eyebrow">Obra original · colección visual</span>
+          <h1>Una galería más viva, luminosa y centrada en la pintura.</h1>
           <p class="lead">
-            Bienvenido al portfolio de <strong>R. Belinchón</strong>, una selección de obras originales
-            pensadas para mostrarse con claridad y dejar todo el protagonismo a la pintura.
+            Portfolio digital de <strong>R. Belinchón</strong> pensado para presentar la obra con una estética más ligera,
+            dinámica y actual. La navegación es fluida, adaptable a móvil y preparada para seguir creciendo.
           </p>
           <div class="hero-actions">
-            <a class="btn" href="#galeria">Ver galería</a>
-            <a class="btn btn-outline" href="mailto:Infoaerobeats@gmail.com">Contactar</a>
+            <a class="btn btn-primary" href="#galeria">Explorar la galería</a>
+            <a class="btn btn-secondary" href="mailto:Infoaerobeats@gmail.com">Escribir al artista</a>
           </div>
-          <p class="hero-note">Para consultas sobre disponibilidad, encargos o compra de obra: <strong>Infoaerobeats@gmail.com</strong></p>
+          <div class="hero-meta">
+            <span>Responsive</span>
+            <span>Animaciones suaves</span>
+            <span>Visual más contemporáneo</span>
+          </div>
         </div>
-        <div class="hero-frame">
-          <img src="images/obra-01.jpg" alt="Cuadro 01 de R. Belinchón">
+
+        <div class="glass hero-visual reveal">
+          <div class="hero-stack">
+            <div class="hero-main">
+              <img src="images/obra-01.jpg" alt="Obra destacada de R. Belinchón" />
+              <div class="hero-badge">Colección destacada</div>
+            </div>
+            <div class="hero-side">
+              <img src="images/obra-02.jpg" alt="Detalle de obra de R. Belinchón" />
+            </div>
+          </div>
         </div>
       </div>
     </section>
 
     <section id="galeria">
       <div class="container">
-        <div class="section-head">
+        <div class="section-top reveal">
           <div>
-            <h2>Galería de obras</h2>
-            <p>Pulsa sobre cualquier cuadro para verlo ampliado.</p>
+            <h2>Galería</h2>
+            <p>Haz clic en cualquier obra para verla ampliada. El diseño se adapta mejor a móvil, tablet y escritorio.</p>
           </div>
         </div>
 
-        <div class="gallery">
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-01.jpg" data-title="Obra 01" data-alt="Cuadro 01 de R. Belinchón">
-          <img src="images/obra-01.jpg" alt="Cuadro 01 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 01</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-02.jpg" data-title="Obra 02" data-alt="Cuadro 02 de R. Belinchón">
-          <img src="images/obra-02.jpg" alt="Cuadro 02 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 02</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-03.jpg" data-title="Obra 03" data-alt="Cuadro 03 de R. Belinchón">
-          <img src="images/obra-03.jpg" alt="Cuadro 03 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 03</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-04.jpg" data-title="Obra 04" data-alt="Cuadro 04 de R. Belinchón">
-          <img src="images/obra-04.jpg" alt="Cuadro 04 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 04</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-05.jpg" data-title="Obra 05" data-alt="Cuadro 05 de R. Belinchón">
-          <img src="images/obra-05.jpg" alt="Cuadro 05 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 05</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-06.jpg" data-title="Obra 06" data-alt="Cuadro 06 de R. Belinchón">
-          <img src="images/obra-06.jpg" alt="Cuadro 06 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 06</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-07.jpg" data-title="Obra 07" data-alt="Cuadro 07 de R. Belinchón">
-          <img src="images/obra-07.jpg" alt="Cuadro 07 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 07</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-08.jpg" data-title="Obra 08" data-alt="Cuadro 08 de R. Belinchón">
-          <img src="images/obra-08.jpg" alt="Cuadro 08 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 08</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-09.jpg" data-title="Obra 09" data-alt="Cuadro 09 de R. Belinchón">
-          <img src="images/obra-09.jpg" alt="Cuadro 09 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 09</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-10.jpg" data-title="Obra 10" data-alt="Cuadro 10 de R. Belinchón">
-          <img src="images/obra-10.jpg" alt="Cuadro 10 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 10</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-11.jpg" data-title="Obra 11" data-alt="Cuadro 11 de R. Belinchón">
-          <img src="images/obra-11.jpg" alt="Cuadro 11 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 11</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-12.jpg" data-title="Obra 12" data-alt="Cuadro 12 de R. Belinchón">
-          <img src="images/obra-12.jpg" alt="Cuadro 12 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 12</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-13.jpg" data-title="Obra 13" data-alt="Cuadro 13 de R. Belinchón">
-          <img src="images/obra-13.jpg" alt="Cuadro 13 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 13</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-14.jpg" data-title="Obra 14" data-alt="Cuadro 14 de R. Belinchón">
-          <img src="images/obra-14.jpg" alt="Cuadro 14 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 14</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-15.jpg" data-title="Obra 15" data-alt="Cuadro 15 de R. Belinchón">
-          <img src="images/obra-15.jpg" alt="Cuadro 15 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 15</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-16.jpg" data-title="Obra 16" data-alt="Cuadro 16 de R. Belinchón">
-          <img src="images/obra-16.jpg" alt="Cuadro 16 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 16</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-17.jpg" data-title="Obra 17" data-alt="Cuadro 17 de R. Belinchón">
-          <img src="images/obra-17.jpg" alt="Cuadro 17 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 17</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-18.jpg" data-title="Obra 18" data-alt="Cuadro 18 de R. Belinchón">
-          <img src="images/obra-18.jpg" alt="Cuadro 18 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 18</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-19.jpg" data-title="Obra 19" data-alt="Cuadro 19 de R. Belinchón">
-          <img src="images/obra-19.jpg" alt="Cuadro 19 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 19</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-20.jpg" data-title="Obra 20" data-alt="Cuadro 20 de R. Belinchón">
-          <img src="images/obra-20.jpg" alt="Cuadro 20 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 20</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-21.jpg" data-title="Obra 21" data-alt="Cuadro 21 de R. Belinchón">
-          <img src="images/obra-21.jpg" alt="Cuadro 21 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 21</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-22.jpg" data-title="Obra 22" data-alt="Cuadro 22 de R. Belinchón">
-          <img src="images/obra-22.jpg" alt="Cuadro 22 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 22</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-23.jpg" data-title="Obra 23" data-alt="Cuadro 23 de R. Belinchón">
-          <img src="images/obra-23.jpg" alt="Cuadro 23 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 23</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-24.jpg" data-title="Obra 24" data-alt="Cuadro 24 de R. Belinchón">
-          <img src="images/obra-24.jpg" alt="Cuadro 24 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 24</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-25.jpg" data-title="Obra 25" data-alt="Cuadro 25 de R. Belinchón">
-          <img src="images/obra-25.jpg" alt="Cuadro 25 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 25</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-26.jpg" data-title="Obra 26" data-alt="Cuadro 26 de R. Belinchón">
-          <img src="images/obra-26.jpg" alt="Cuadro 26 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 26</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-27.jpg" data-title="Obra 27" data-alt="Cuadro 27 de R. Belinchón">
-          <img src="images/obra-27.jpg" alt="Cuadro 27 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 27</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-28.jpg" data-title="Obra 28" data-alt="Cuadro 28 de R. Belinchón">
-          <img src="images/obra-28.jpg" alt="Cuadro 28 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 28</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-29.jpg" data-title="Obra 29" data-alt="Cuadro 29 de R. Belinchón">
-          <img src="images/obra-29.jpg" alt="Cuadro 29 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 29</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-30.jpg" data-title="Obra 30" data-alt="Cuadro 30 de R. Belinchón">
-          <img src="images/obra-30.jpg" alt="Cuadro 30 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 30</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-31.jpg" data-title="Obra 31" data-alt="Cuadro 31 de R. Belinchón">
-          <img src="images/obra-31.jpg" alt="Cuadro 31 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 31</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-32.jpg" data-title="Obra 32" data-alt="Cuadro 32 de R. Belinchón">
-          <img src="images/obra-32.jpg" alt="Cuadro 32 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 32</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
-
-      <article class="card">
-        <button class="art-button" type="button" data-src="images/obra-33.jpg" data-title="Obra 33" data-alt="Cuadro 33 de R. Belinchón">
-          <img src="images/obra-33.jpg" alt="Cuadro 33 de R. Belinchón" loading="lazy">
-        </button>
-        <div class="card-body">
-          <h3>Obra 33</h3>
-          <p>Colección de R. Belinchón</p>
-        </div>
-      </article>
-    
+        <div class="masonry">
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-01.jpg" data-title="Obra 01" data-alt="Obra 01 de R. Belinchón"><img src="images/obra-01.jpg" alt="Obra 01 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 01</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-02.jpg" data-title="Obra 02" data-alt="Obra 02 de R. Belinchón"><img src="images/obra-02.jpg" alt="Obra 02 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 02</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-03.jpg" data-title="Obra 03" data-alt="Obra 03 de R. Belinchón"><img src="images/obra-03.jpg" alt="Obra 03 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 03</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-04.jpg" data-title="Obra 04" data-alt="Obra 04 de R. Belinchón"><img src="images/obra-04.jpg" alt="Obra 04 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 04</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-05.jpg" data-title="Obra 05" data-alt="Obra 05 de R. Belinchón"><img src="images/obra-05.jpg" alt="Obra 05 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 05</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-06.jpg" data-title="Obra 06" data-alt="Obra 06 de R. Belinchón"><img src="images/obra-06.jpg" alt="Obra 06 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 06</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-07.jpg" data-title="Obra 07" data-alt="Obra 07 de R. Belinchón"><img src="images/obra-07.jpg" alt="Obra 07 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 07</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-08.jpg" data-title="Obra 08" data-alt="Obra 08 de R. Belinchón"><img src="images/obra-08.jpg" alt="Obra 08 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 08</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-09.jpg" data-title="Obra 09" data-alt="Obra 09 de R. Belinchón"><img src="images/obra-09.jpg" alt="Obra 09 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 09</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-10.jpg" data-title="Obra 10" data-alt="Obra 10 de R. Belinchón"><img src="images/obra-10.jpg" alt="Obra 10 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 10</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-11.jpg" data-title="Obra 11" data-alt="Obra 11 de R. Belinchón"><img src="images/obra-11.jpg" alt="Obra 11 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 11</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
+          <article class="art-card reveal">
+            <button class="art-button" data-src="images/obra-12.jpg" data-title="Obra 12" data-alt="Obra 12 de R. Belinchón"><img src="images/obra-12.jpg" alt="Obra 12 de R. Belinchón"></button>
+            <div class="art-info"><div><h3>Obra 12</h3><p>Colección R. Belinchón</p></div><span class="tag">Original</span></div>
+          </article>
         </div>
       </div>
     </section>
 
     <section id="artista">
-      <div class="container about-grid">
-        <div class="panel">
-          <h3>Sobre R. Belinchón</h3>
+      <div class="container artist-layout">
+        <div class="glass panel reveal">
+          <h3>Sobre el artista</h3>
           <p class="text">
-            Este espacio presenta la obra de <strong>R. Belinchón</strong> en formato digital, con una
-            navegación limpia y una estética de galería. La web está preparada para seguir creciendo:
-            se pueden añadir títulos reales, técnicas, medidas, series, años, precios, estado de venta
-            o textos curatoriales cuando quieras.
+            Esta versión del portfolio da más protagonismo a la imagen y reduce la sensación de web estática.
+            El fondo es más luminoso, los bloques tienen profundidad y la experiencia se siente más fluida en cualquier pantalla.
           </p>
-          <p class="text" style="margin-top:1rem;">
-            Ahora mismo la colección aparece organizada como portfolio visual para facilitar la
-            contemplación de cada pieza y el contacto directo con el autor.
+          <p class="text" style="margin-top: 1rem;">
+            Además, esta base permite crecer sin rehacer todo: se pueden añadir biografía completa, técnica, medidas,
+            precio, estado de disponibilidad, exposiciones e incluso una sección de venta o encargos.
           </p>
         </div>
-        <div class="panel">
-          <h3>Qué se puede añadir después</h3>
-          <p class="text">Esta primera versión ya está lista para publicar. En la siguiente iteración se puede incorporar:</p>
-          <div class="contact-list">
-            <div class="contact-item">Fichas completas de cada obra</div>
-            <div class="contact-item">Precios o estado: disponible, reservado, vendido</div>
-            <div class="contact-item">Biografía más amplia del artista</div>
-            <div class="contact-item">Instagram, catálogo PDF o formulario de encargos</div>
+
+        <div class="glass panel reveal">
+          <h3>Mejoras de esta versión</h3>
+          <div class="feature-list">
+            <div class="feature"><strong>Más visual</strong><span class="text">Diseño más ligero y artístico.</span></div>
+            <div class="feature"><strong>Más responsive</strong><span class="text">Se adapta mejor al móvil.</span></div>
+            <div class="feature"><strong>Más fluida</strong><span class="text">Animaciones suaves al hacer scroll.</span></div>
+            <div class="feature"><strong>Más viva</strong><span class="text">Fondo con profundidad y movimiento visual.</span></div>
           </div>
         </div>
       </div>
     </section>
 
     <section id="contacto">
-      <div class="container">
-        <div class="section-head">
+      <div class="container contact-grid">
+        <div class="glass contact-card reveal">
           <div>
-            <h2>Contacto</h2>
-            <p>Escribe para consultar disponibilidad, precios, encargos o exposiciones.</p>
+            <h2 style="font-family: Georgia, serif; margin-top: 0; margin-bottom: .6rem;">Contacto</h2>
+            <p class="text">Para consultar una obra, encargos, disponibilidad o exposiciones.</p>
+            <div class="contact-items">
+              <div class="contact-item"><strong>Artista:</strong><br>R. Belinchón</div>
+              <div class="contact-item"><strong>Email:</strong><br><a href="mailto:Infoaerobeats@gmail.com">Infoaerobeats@gmail.com</a></div>
+              <div class="contact-item"><strong>Consulta sugerida:</strong><br>Obra, encargo, exposición o colaboración</div>
+            </div>
           </div>
+          <a class="btn btn-primary" href="mailto:Infoaerobeats@gmail.com">Enviar email</a>
         </div>
-        <div class="panel">
-          <div class="contact-list">
-            <div class="contact-item"><strong>Artista:</strong> R. Belinchón</div>
-            <div class="contact-item"><strong>Email:</strong> <a href="mailto:Infoaerobeats@gmail.com">Infoaerobeats@gmail.com</a></div>
-            <div class="contact-item"><strong>Asunto sugerido:</strong> Consulta sobre obra / encargo / exposición</div>
+
+        <div class="glass contact-card reveal">
+          <div>
+            <h3 style="margin-top: 0;">Formulario visual</h3>
+            <p class="text" style="margin-bottom: 1rem;">Este formulario es estético. Luego puede conectarse a email real o a un servicio como Formspree.</p>
+            <form class="contact-form" id="contactForm">
+              <div class="field">
+                <label for="name">Nombre</label>
+                <input id="name" type="text" placeholder="Tu nombre" required>
+              </div>
+              <div class="field">
+                <label for="email">Email</label>
+                <input id="email" type="email" placeholder="tu@email.com" required>
+              </div>
+              <div class="field">
+                <label for="message">Mensaje</label>
+                <textarea id="message" placeholder="Cuéntame qué obra te interesa o qué necesitas" required></textarea>
+              </div>
+              <button class="btn btn-secondary" type="submit">Enviar consulta</button>
+              <div id="formMessage" class="small"></div>
+            </form>
           </div>
         </div>
       </div>
@@ -816,13 +830,14 @@
   </main>
 
   <footer>
-    <div class="container">
-      © 2026 R. Belinchón · Portfolio artístico
+    <div class="container footer-row">
+      <span>© 2026 R. Belinchón · Portfolio artístico</span>
+      <span>Diseño preparado para seguir evolucionando</span>
     </div>
   </footer>
 
   <div class="lightbox" id="lightbox" aria-hidden="true">
-    <div class="lightbox-inner">
+    <div class="lightbox-box">
       <button class="lightbox-close" id="closeLightbox" aria-label="Cerrar">×</button>
       <img id="lightboxImage" src="" alt="">
       <div class="lightbox-caption" id="lightboxCaption"></div>
@@ -830,13 +845,27 @@
   </div>
 
   <script>
+    const reveals = document.querySelectorAll('.reveal');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    reveals.forEach((item, index) => {
+      item.style.transitionDelay = `${Math.min(index * 0.04, 0.28)}s`;
+      observer.observe(item);
+    });
+
     const buttons = document.querySelectorAll('.art-button');
     const lightbox = document.getElementById('lightbox');
     const lightboxImage = document.getElementById('lightboxImage');
     const lightboxCaption = document.getElementById('lightboxCaption');
     const closeLightbox = document.getElementById('closeLightbox');
 
-    buttons.forEach(button => {
+    buttons.forEach((button) => {
       button.addEventListener('click', () => {
         lightboxImage.src = button.dataset.src;
         lightboxImage.alt = button.dataset.alt;
@@ -858,8 +887,20 @@
     lightbox.addEventListener('click', (e) => {
       if (e.target === lightbox) closeViewer();
     });
+
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape' && lightbox.classList.contains('open')) closeViewer();
+      if (e.key === 'Escape' && lightbox.classList.contains('open')) {
+        closeViewer();
+      }
+    });
+
+    const form = document.getElementById('contactForm');
+    const formMessage = document.getElementById('formMessage');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      formMessage.textContent = 'Formulario enviado visualmente. Para recibir mensajes reales, conviene conectarlo a un servicio externo.';
+      form.reset();
     });
   </script>
 </body>
